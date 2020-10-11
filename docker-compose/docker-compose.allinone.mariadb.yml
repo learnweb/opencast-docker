@@ -21,7 +21,7 @@ volumes:
 
 services:
   mariadb:
-    image: mariadb:10.0
+    image: mariadb:10.5
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: opencast
@@ -60,7 +60,7 @@ services:
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
       ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
-      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast?useMysqlMetadata=true
       ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
