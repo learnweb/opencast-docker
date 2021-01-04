@@ -33,7 +33,8 @@ build-allinone:
 		-t $(DOCKER_IMAGE_BASE)/allinone \
 		-t $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		Dockerfiles/allinone
+		-f Dockerfiles/allinone/Dockerfile \
+		.
 build-admin:
 	docker build \
 		--pull \
@@ -42,7 +43,8 @@ build-admin:
 		-t $(DOCKER_IMAGE_BASE)/admin \
 		-t $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		Dockerfiles/admin
+		-f Dockerfiles/admin/Dockerfile \
+		.
 build-adminpresentation:
 	docker build \
 		--pull \
@@ -51,7 +53,8 @@ build-adminpresentation:
 		-t $(DOCKER_IMAGE_BASE)/adminpresentation \
 		-t $(DOCKER_IMAGE_BASE)/adminpresentation:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		Dockerfiles/adminpresentation
+		-f Dockerfiles/adminpresentation/Dockerfile \
+		.
 build-ingest:
 	docker build \
 		--pull \
@@ -60,7 +63,8 @@ build-ingest:
 		-t $(DOCKER_IMAGE_BASE)/ingest \
 		-t $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		Dockerfiles/ingest
+		-f Dockerfiles/ingest/Dockerfile \
+		.
 build-presentation:
 	docker build \
 		--pull \
@@ -69,7 +73,8 @@ build-presentation:
 		-t $(DOCKER_IMAGE_BASE)/presentation \
 		-t $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		Dockerfiles/presentation
+		-f Dockerfiles/presentation/Dockerfile \
+		.
 build-worker:
 	docker build \
 		--pull \
@@ -78,7 +83,8 @@ build-worker:
 		-t $(DOCKER_IMAGE_BASE)/worker \
 		-t $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		Dockerfiles/worker
+		-f Dockerfiles/worker/Dockerfile \
+		.
 build-build:
 	docker build \
 		--pull \
@@ -87,7 +93,8 @@ build-build:
 		-t $(DOCKER_IMAGE_BASE)/build \
 		-t $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		Dockerfiles/build
+		-f Dockerfiles/build/Dockerfile \
+		.
 .PHONY: build build-allinone build-admin build-adminpresentation build-ingest build-presentation build-worker build-build
 
 test:
@@ -111,6 +118,6 @@ clean:
 .PHONY: clean
 
 lint:
-	cd Dockerfiles/admin/assets && shellcheck --shell=sh --external-sources *.sh ./**/*.sh
-	cd Dockerfiles/build/assets/bin && shellcheck --shell=sh --external-sources *
+	cd rootfs && shellcheck --external-sources *.sh ./opencast/docker/scripts/*.sh
+	cd Dockerfiles/build/rootfs/usr/local/bin && shellcheck --external-sources *
 .PHONY: lint

@@ -19,13 +19,13 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
       org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/next/README.md" \
-      org.label-schema.url="http://www.opencast.org/" \
+      org.label-schema.url="https://opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="r/9.x"
+ARG branch="develop"
 
 ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
@@ -42,7 +42,7 @@ ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_BUILD_ASSETS="/docker" \
-    FFMPEG_VERSION="20200918044515-N-99257-g01506c290a"
+    FFMPEG_VERSION="20210104040504-N-100553-g6c24f2bf41"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
@@ -51,17 +51,42 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      sudo firefox-esr \
-      tar gzip bzip2 xz-utils git \
-      ca-certificates openssl \
-      make gcc g++ libc-dev \
+      bzip2 \
+      ca-certificates \
+      firefox-esr \
+      g++ \
+      gcc \
+      git \
+      gzip \
+      libc-dev \
+      make \
+      openssl \
+      sudo \
+      tar \
+      xz-utils \
  && apt-get install -y --no-install-recommends \
-      ca-certificates openssl tzdata curl jq \
-      fontconfig fonts-dejavu fonts-freefont-ttf fonts-liberation fonts-linuxlibertine \
-      hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
-      tesseract-ocr tesseract-ocr-eng \
-      sox synfig \
-      nfs-common netcat-openbsd \
+      ca-certificates \
+      curl \
+      fontconfig \
+      fonts-dejavu \
+      fonts-freefont-ttf \
+      fonts-liberation \
+      fonts-linuxlibertine \
+      hunspell \
+      hunspell-en-au \
+      hunspell-en-ca \
+      hunspell-en-gb \
+      hunspell-en-us \
+      hunspell-en-za \
+      jq \
+      netcat-openbsd \
+      nfs-common \
+      openssl \
+      sox \
+      synfig \
+      tesseract-ocr \
+      tesseract-ocr-eng \
+      tzdata \
   \
  && sudo ln -s /usr/local/openjdk-8/bin/* /usr/local/bin/ \
   \
@@ -86,9 +111,8 @@ RUN apt-get update \
  && cd \
  && rm -rf /tmp/* /var/lib/apt/lists/*
 
-COPY assets/docker-entrypoint.sh /docker-entrypoint.sh
-COPY assets/build "${OPENCAST_BUILD_ASSETS}/"
-COPY assets/bin/* "/usr/local/bin/"
+COPY rootfs "${OPENCAST_BUILD_ASSETS}/"
+COPY Dockerfiles/build/rootfs /
 
 WORKDIR "${OPENCAST_SRC}"
 

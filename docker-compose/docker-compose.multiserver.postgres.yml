@@ -20,16 +20,14 @@ volumes:
   data: {}
 
 services:
-  mariadb:
-    image: mariadb:10.5
+  postgresql:
+    image: postgres:13-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: opencast
-      MYSQL_USER: opencast
-      MYSQL_PASSWORD: opencast
-    command: "--wait_timeout=28800"
+      POSTGRES_DB: opencast
+      POSTGRES_USER: opencast
+      POSTGRES_PASSWORD: opencast
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/postgresql/data
 
   activemq:
     image: webcenter/activemq:5.14.3
@@ -59,8 +57,8 @@ services:
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
-      ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
-      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast?useMysqlMetadata=true
+      ORG_OPENCASTPROJECT_DB_VENDOR: PostgreSQL
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:postgresql://postgresql/opencast
       ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
@@ -83,8 +81,8 @@ services:
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
-      ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
-      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast?useMysqlMetadata=true
+      ORG_OPENCASTPROJECT_DB_VENDOR: PostgreSQL
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:postgresql://postgresql/opencast
       ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
@@ -107,8 +105,8 @@ services:
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
-      ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
-      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast?useMysqlMetadata=true
+      ORG_OPENCASTPROJECT_DB_VENDOR: PostgreSQL
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:postgresql://postgresql/opencast
       ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080

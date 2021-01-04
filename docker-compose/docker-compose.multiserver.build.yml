@@ -44,7 +44,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   elasticsearch:
-    image: elasticsearch:7.9.2
+    image: elasticsearch:7.9.3
     environment:
       discovery.type: single-node
     volumes:

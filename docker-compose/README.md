@@ -28,7 +28,7 @@ ways one can use the Docker images:
     This setup starts a simple allinone Opencast distribution including Apache
     ActiveMQ, Elasticsearch, and MariaDB.
 
--   [**`docker-compose.allinone.postgresql.yml`**](docker-compose.allinone.postgresql.yml)<br>
+-   [**`docker-compose.allinone.postgres.yml`**](docker-compose.allinone.postgres.yml)<br>
     This setup starts a simple allinone Opencast distribution including Apache
     ActiveMQ, Elasticsearch, and PostgreSQL.
 
@@ -46,6 +46,6 @@ ways one can use the Docker images:
     This setup starts a multiserver Opencast distribution with one admin, worker
     and presentation including Apache ActiveMQ, Elasticsearch, and MariaDB.
 
--   [**`docker-compose.multiserver.postgresql.yml`**](docker-compose.multiserver.postgresql.yml)<br>
+-   [**`docker-compose.multiserver.postgres.yml`**](docker-compose.multiserver.postgres.yml)<br>
     This setup starts a multiserver Opencast distribution with one admin, worker
     and presentation including Apache ActiveMQ, Elasticsearch, and PostgreSQL.

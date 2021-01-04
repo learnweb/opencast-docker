@@ -15,11 +15,20 @@
 version: "3"
 
 volumes:
+  db: {}
   elastic: {}
   data: {}
-  pyca: {}
 
 services:
+  postgresql:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: opencast
+      POSTGRES_USER: opencast
+      POSTGRES_PASSWORD: opencast
+    volumes:
+      - db:/var/lib/postgresql/data
+
   activemq:
     image: webcenter/activemq:5.14.3
     environment:
@@ -42,12 +51,16 @@ services:
   opencast:
     image: quay.io/opencast/allinone:next
     environment:
-      ORG_OPENCASTPROJECT_SERVER_URL: http://opencast:8080
+      ORG_OPENCASTPROJECT_SERVER_URL: http://localhost:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
+      ORG_OPENCASTPROJECT_DB_VENDOR: PostgreSQL
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:postgresql://postgresql/opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       ACTIVEMQ_BROKER_USERNAME: admin
       ACTIVEMQ_BROKER_PASSWORD: password
@@ -56,45 +69,3 @@ services:
       - "8080:8080"
     volumes:
       - data:/data
-
-  pyca-schedule:
-    command: schedule
-    image: quay.io/opencast/pyca
-    restart: always
-    volumes:
-      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
-      - pyca:/var/lib/pyca
-
-  pyca-ingest:
-    command: ingest
-    image: quay.io/opencast/pyca
-    restart: always
-    volumes:
-      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
-      - pyca:/var/lib/pyca
-
-  pyca-capture:
-    command: capture
-    image: quay.io/opencast/pyca
-    restart: always
-    volumes:
-      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
-      - pyca:/var/lib/pyca
-
-  pyca-agentstate:
-    command: agentstate
-    image: quay.io/opencast/pyca
-    restart: always
-    volumes:
-      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
-      - pyca:/var/lib/pyca
-
-  pyca-ui:
-    entrypoint: ["gunicorn", "--config=/etc/pyca/gunicorn.conf.py", "pyca.ui:app"]
-    image: quay.io/opencast/pyca
-    restart: always
-    volumes:
-      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
-      - pyca:/var/lib/pyca
-    ports:
-      - "8000:8000"

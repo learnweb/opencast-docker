@@ -15,7 +15,7 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="r/9.x"
+ARG branch="develop"
 
 ENV OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -26,13 +26,21 @@ ENV OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}" \
-    FFMPEG_VERSION="20200918044515-N-99257-g01506c290a"
+    FFMPEG_VERSION="20210104040504-N-100553-g6c24f2bf41"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      tar gzip bzip2 xz-utils git \
-      ca-certificates openssl \
-      make gcc g++ libc-dev \
+      bzip2 \
+      ca-certificates \
+      g++ \
+      gcc \
+      git \
+      gzip \
+      libc-dev \
+      make \
+      openssl \
+      tar \
+      xz-utils \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
@@ -74,7 +82,7 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.name="opencast-presentation" \
       org.label-schema.description="Docker image for the Opencast presentation distribution" \
       org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/next/README.md" \
-      org.label-schema.url="http://www.opencast.org/" \
+      org.label-schema.url="https://opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
@@ -100,24 +108,41 @@ RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && mkdir -p "${OPENCAST_DATA}" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
 
-COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/su-exec
-COPY --from=build /usr/local/bin/ff* /usr/local/sbin/
-COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
-COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
-COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
-COPY --chown=opencast:opencast assets/etc/* "${OPENCAST_CONFIG}/"
-COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
-
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      ca-certificates openssl tzdata curl jq \
-      fontconfig fonts-dejavu fonts-freefont-ttf fonts-liberation fonts-linuxlibertine \
-      hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
-      tesseract-ocr tesseract-ocr-eng \
-      sox synfig \
-      nfs-common netcat-openbsd \
+      ca-certificates \
+      curl \
+      fontconfig \
+      fonts-dejavu \
+      fonts-freefont-ttf \
+      fonts-liberation \
+      fonts-linuxlibertine \
+      hunspell \
+      hunspell-en-au \
+      hunspell-en-ca \
+      hunspell-en-gb \
+      hunspell-en-us \
+      hunspell-en-za \
+      jq \
+      netcat-openbsd \
+      nfs-common \
+      openssl \
+      sox \
+      synfig \
+      tesseract-ocr \
+      tesseract-ocr-eng \
+      tzdata \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /usr/local/sbin/su-exec /usr/local/bin/ff* /usr/local/sbin/
+COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY rootfs /
+
+RUN mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
+ && mv "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
- && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+ && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 WORKDIR "${OPENCAST_HOME}"
 
