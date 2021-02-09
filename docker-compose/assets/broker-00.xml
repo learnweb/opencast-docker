@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration xmlns="urn:activemq"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:activemq /schema/artemis-configuration.xsd">
+  <core xmlns="urn:activemq:core" xsi:schemaLocation="urn:activemq:core ">
+    <addresses>
+      <address name="ACL.Adminui">
+        <anycast>
+          <queue name="ACL.Adminui"/>
+        </anycast>
+      </address>
+      <address name="ACL.Externalapi">
+        <anycast>
+          <queue name="ACL.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="ACL.QUEUE">
+        <anycast>
+          <queue name="ACL.QUEUE"/>
+        </anycast>
+      </address>
+      <address name="ASSETMANAGER.Adminui">
+        <anycast>
+          <queue name="ASSETMANAGER.Adminui"/>
+        </anycast>
+      </address>
+      <address name="ASSETMANAGER.Conductor">
+        <anycast>
+          <queue name="ASSETMANAGER.Conductor"/>
+        </anycast>
+      </address>
+      <address name="ASSETMANAGER.Externalapi">
+        <anycast>
+          <queue name="ASSETMANAGER.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="ASSETMANAGER.Liveschedule">
+        <anycast>
+          <queue name="ASSETMANAGER.Liveschedule"/>
+        </anycast>
+      </address>
+      <address name="ASSETMANAGER.QUEUE">
+        <anycast>
+          <queue name="ASSETMANAGER.QUEUE"/>
+        </anycast>
+      </address>
+      <address name="COMMENT.Adminui">
+        <anycast>
+          <queue name="COMMENT.Adminui"/>
+        </anycast>
+      </address>
+      <address name="COMMENT.Externalapi">
+        <anycast>
+          <queue name="COMMENT.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="COMMENT.QUEUE">
+        <anycast>
+          <queue name="COMMENT.QUEUE"/>
+        </anycast>
+      </address>
+      <address name="GROUP.Adminui">
+        <anycast>
+          <queue name="GROUP.Adminui"/>
+        </anycast>
+      </address>
+      <address name="GROUP.Externalapi">
+        <anycast>
+          <queue name="GROUP.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="GROUP.QUEUE">
+        <anycast>
+          <queue name="GROUP.QUEUE"/>
+        </anycast>
+      </address>
+      <address name="SCHEDULER.Adminui">
+        <anycast>
+          <queue name="SCHEDULER.Adminui"/>
+        </anycast>
+      </address>
+      <address name="SCHEDULER.Externalapi">
+        <anycast>
+          <queue name="SCHEDULER.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="SCHEDULER.Liveschedule">
+        <anycast>
+          <queue name="SCHEDULER.Liveschedule"/>
+        </anycast>
+      </address>
+      <address name="SCHEDULER.QUEUE">
+        <anycast>
+          <queue name="SCHEDULER.QUEUE"/>
+        </anycast>
+      </address>
+      <address name="SERIES.Adminui">
+        <anycast>
+          <queue name="SERIES.Adminui"/>
+        </anycast>
+      </address>
+      <address name="SERIES.Conductor">
+        <anycast>
+          <queue name="SERIES.Conductor"/>
+        </anycast>
+      </address>
+      <address name="SERIES.Externalapi">
+        <anycast>
+          <queue name="SERIES.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="SERIES.QUEUE">
+        <anycast>
+          <queue name="SERIES.QUEUE"/>
+        </anycast>
+      </address>
+      <address name="THEME.Adminui">
+        <anycast>
+          <queue name="THEME.Adminui"/>
+        </anycast>
+      </address>
+      <address name="THEME.Externalapi">
+        <anycast>
+          <queue name="THEME.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="THEME.QUEUE">
+        <anycast>
+          <queue name="THEME.QUEUE"/>
+        </anycast>
+      </address>
+      <address name="WORKFLOW.Adminui">
+        <anycast>
+          <queue name="WORKFLOW.Adminui"/>
+        </anycast>
+      </address>
+      <address name="WORKFLOW.Externalapi">
+        <anycast>
+          <queue name="WORKFLOW.Externalapi"/>
+        </anycast>
+      </address>
+      <address name="WORKFLOW.QUEUE">
+        <anycast>
+          <queue name="WORKFLOW.QUEUE"/>
+        </anycast>
+      </address>
+    </addresses>
+    <diverts>
+      <divert name="ACL.Adminui-divert">
+        <routing-name>ACL.Adminui-divert</routing-name>
+        <address>ACL.QUEUE</address>
+        <forwarding-address>ACL.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="ACL.Externalapi-divert">
+        <routing-name>ACL.Externalapi-divert</routing-name>
+        <address>ACL.QUEUE</address>
+        <forwarding-address>ACL.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="ASSETMANAGER.Adminui-divert">
+        <routing-name>ASSETMANAGER.Adminui-divert</routing-name>
+        <address>ASSETMANAGER.QUEUE</address>
+        <forwarding-address>ASSETMANAGER.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="ASSETMANAGER.Externalapi-divert">
+        <routing-name>ASSETMANAGER.Externalapi-divert</routing-name>
+        <address>ASSETMANAGER.QUEUE</address>
+        <forwarding-address>ASSETMANAGER.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="ASSETMANAGER.Conductor-divert">
+        <routing-name>ASSETMANAGER.Conductor-divert</routing-name>
+        <address>ASSETMANAGER.QUEUE</address>
+        <forwarding-address>ASSETMANAGER.Conductor</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="ASSETMANAGER.Liveschedule-divert">
+        <routing-name>ASSETMANAGER.Liveschedule-divert</routing-name>
+        <address>ASSETMANAGER.QUEUE</address>
+        <forwarding-address>ASSETMANAGER.Liveschedule</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="COMMENT.Adminui-divert">
+        <routing-name>COMMENT.Adminui-divert</routing-name>
+        <address>COMMENT.QUEUE</address>
+        <forwarding-address>COMMENT.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="COMMENT.Externalapi-divert">
+        <routing-name>COMMENT.Externalapi-divert</routing-name>
+        <address>COMMENT.QUEUE</address>
+        <forwarding-address>COMMENT.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="GROUP.Adminui-divert">
+        <routing-name>GROUP.Adminui-divert</routing-name>
+        <address>GROUP.QUEUE</address>
+        <forwarding-address>GROUP.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="GROUP.Externalapi-divert">
+        <routing-name>GROUP.Externalapi-divert</routing-name>
+        <address>GROUP.QUEUE</address>
+        <forwarding-address>GROUP.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="SCHEDULER.Adminui-divert">
+        <routing-name>SCHEDULER.Adminui-divert</routing-name>
+        <address>SCHEDULER.QUEUE</address>
+        <forwarding-address>SCHEDULER.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="SCHEDULER.Externalapi-divert">
+        <routing-name>SCHEDULER.Externalapi-divert</routing-name>
+        <address>SCHEDULER.QUEUE</address>
+        <forwarding-address>SCHEDULER.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="SCHEDULER.Liveschedule-divert">
+        <routing-name>SCHEDULER.Liveschedule-divert</routing-name>
+        <address>SCHEDULER.QUEUE</address>
+        <forwarding-address>SCHEDULER.Liveschedule</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="SERIES.Adminui-divert">
+        <routing-name>SERIES.Adminui-divert</routing-name>
+        <address>SERIES.QUEUE</address>
+        <forwarding-address>SERIES.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="SERIES.Conductor-divert">
+        <routing-name>SERIES.Conductor-divert</routing-name>
+        <address>SERIES.QUEUE</address>
+        <forwarding-address>SERIES.Conductor</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="SERIES.Externalapi-divert">
+        <routing-name>SERIES.Externalapi-divert</routing-name>
+        <address>SERIES.QUEUE</address>
+        <forwarding-address>SERIES.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="THEME.Adminui-divert">
+        <routing-name>THEME.Adminui-divert</routing-name>
+        <address>THEME.QUEUE</address>
+        <forwarding-address>THEME.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="THEME.Externalapi-divert">
+        <routing-name>THEME.Externalapi-divert</routing-name>
+        <address>THEME.QUEUE</address>
+        <forwarding-address>THEME.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="WORKFLOW.Adminui-divert">
+        <routing-name>WORKFLOW.Adminui-divert</routing-name>
+        <address>WORKFLOW.QUEUE</address>
+        <forwarding-address>WORKFLOW.Adminui</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+      <divert name="WORKFLOW.Externalapi-divert">
+        <routing-name>WORKFLOW.Externalapi-divert</routing-name>
+        <address>WORKFLOW.QUEUE</address>
+        <forwarding-address>WORKFLOW.Externalapi</forwarding-address>
+        <exclusive>true</exclusive>
+      </divert>
+    </diverts>
+  </core>
+</configuration>
