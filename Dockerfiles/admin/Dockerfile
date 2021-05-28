@@ -26,7 +26,7 @@ ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}" \
-    FFMPEG_VERSION="20210104040504-N-100553-g6c24f2bf41"
+    FFMPEG_VERSION="latest"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
