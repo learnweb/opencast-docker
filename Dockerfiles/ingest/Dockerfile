@@ -49,7 +49,7 @@ RUN apt-get update \
   \
  && mkdir -p /tmp/ffmpeg \
  && cd /tmp/ffmpeg \
- && curl -sSL "https://pkg.opencast.org/bin/ffmpeg/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
+ && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
      | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
  && chown root:root ff* \
  && mv ff* /usr/local/bin \
