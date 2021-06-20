@@ -24,6 +24,18 @@ opencast_helper_dist_develop() {
   test "${OPENCAST_DISTRIBUTION}" = "develop"
 }
 
+opencast_helper_dist_ingest() {
+  test "${OPENCAST_DISTRIBUTION}" = "ingest"
+}
+
+opencast_helper_dist_presentation() {
+  test "${OPENCAST_DISTRIBUTION}" = "presentation"
+}
+
+opencast_helper_dist_worker() {
+  test "${OPENCAST_DISTRIBUTION}" = "worker"
+}
+
 opencast_helper_customconfig() {
   test -d "${OPENCAST_CUSTOM_CONFIG}"
 }

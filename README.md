@@ -153,7 +153,7 @@ For an installation with multiple nodes you can also set:
 ## ActiveMQ
 
 -   `ACTIVEMQ_BROKER_URL` **Required**<br>
-    URL to ActiveMQ instances using the format specified in the [Opencast documentation](https://docs.opencast.org/latest/admin/configuration/message-broker/), e.g. `failover://tcp://example.opencast.org:61616`
+    URL to ActiveMQ instances using the format specified in the [Opencast documentation](https://docs.opencast.org/develop/admin/configuration/message-broker.html), e.g. `failover://tcp://example.opencast.org:61616`
 -   `ACTIVEMQ_BROKER_USERNAME` **Required**<br>
     ActiveMQ username.
 -   `ACTIVEMQ_BROKER_PASSWORD` **Required**<br>
@@ -178,6 +178,15 @@ There are no additional environment variables you can set if you are using the H
     Database username.
 -   `ORG_OPENCASTPROJECT_DB_JDBC_PASS` **Required**<br>
     Password of the database user. You may alternatively set `ORG_OPENCASTPROJECT_DB_JDBC_PASS_FILE` to the location of a file within the container that contains the password.
+
+## Elasticsearch
+
+-   `ELASTICSEARCH_SERVER_HOST` **Required for all but `ingest`, `presentation`, `worker`**<br>
+    Host name of the [Elasticsearch](https://docs.opencast.org/develop/admin/configuration/elasticsearch.html) node.
+-   `ELASTICSEARCH_SERVER_SCHEME` Optional<br>
+    The scheme part of the URL to the Elasticsearch node. The default is `http`.
+-   `ELASTICSEARCH_SERVER_PORT` Optional<br>
+    The port on which the Elasticsearch node is reachable. The default is `9200`.
 
 ## Miscellaneous
 

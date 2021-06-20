@@ -103,7 +103,6 @@ services:
       ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       ACTIVEMQ_BROKER_USERNAME: admin
       ACTIVEMQ_BROKER_PASSWORD: password
-      ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8081:8080"
       - "5006:5005"
@@ -134,7 +133,6 @@ services:
       ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       ACTIVEMQ_BROKER_USERNAME: admin
       ACTIVEMQ_BROKER_PASSWORD: password
-      ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8082:8080"
       - "5007:5005"

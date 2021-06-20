@@ -19,6 +19,12 @@ set -e
 export ELASTICSEARCH_SERVER_SCHEME="${ELASTICSEARCH_SERVER_SCHEME:-http}"
 export ELASTICSEARCH_SERVER_PORT="${ELASTICSEARCH_SERVER_PORT:-9200}"
 
+if opencast_helper_dist_ingest \
+  || opencast_helper_dist_presentation \
+  || opencast_helper_dist_worker; then
+    export ELASTICSEARCH_SERVER_HOST="${ELASTICSEARCH_SERVER_HOST:-localhost}"
+fi
+
 opencast_elasticsearch_check() {
   echo "Run opencast_elasticsearch_check"
 
