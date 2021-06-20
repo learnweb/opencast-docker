@@ -15,7 +15,7 @@
 FROM maven:3-jdk-11-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="r/10.x"
+ARG branch="develop"
 
 ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
