@@ -63,14 +63,10 @@ case "$dist" in
     sudo mv -f "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg-develop" "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg"
     ;&
   allinone)
-    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp"
-    ;&
-  admin|adminpresentation)
-    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp"
+    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"
     ;;
   *)
-    sudo mv -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg"
-    sudo mv -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg"
+    sudo mv -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg"
     ;;
 esac
 sudo rm -f "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg-develop"

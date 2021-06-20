@@ -68,6 +68,7 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
  && mvn --batch-mode install \
+      -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
       -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
       -DskipTests=true \
       -Dcheckstyle.skip=true \
@@ -134,12 +135,15 @@ RUN apt-get update \
       tzdata \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /usr/local/sbin/su-exec /usr/local/bin/ff* /usr/local/sbin/
+COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/
+COPY --from=build /usr/local/bin/ff* /usr/local/bin/
 COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY rootfs /
 
-RUN mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
- && rm "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp" \
+RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
+      rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"; \
+    fi \
+ && mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" || true \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"

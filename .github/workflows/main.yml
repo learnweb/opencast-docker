@@ -54,9 +54,28 @@ jobs:
       DOCKER_BUILDKIT: 1
     steps:
       - uses: actions/checkout@v2
+
       - name: install
         run: |
           docker info
-      - name: build Docker image
+
+      - name: build container image
         run: |
           make "build-${{ matrix.distribution }}"
+
+      - uses: docker/login-action@v1
+        if: ${{ github.event_name == 'push' }}
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_ROBOT_USERNAME }}
+          password: ${{ secrets.QUAY_ROBOT_PASSWORD }}
+
+      - name: push container image
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+            docker tag "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)" "quay.io/opencast/${{ matrix.distribution }}:latest"
+            docker push "quay.io/opencast/${{ matrix.distribution }}:latest"
+          else
+            docker push "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)"
+          fi

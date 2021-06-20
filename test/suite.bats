@@ -17,12 +17,12 @@
 load test_helper
 
 @test "all Dockerfiles should be the same" {
-  allinone=$(          grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema|org.opencastproject.organization-mh_default_org.cfg|org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg)' "${DOCKERFILES_ALLINONE}/Dockerfile")
-  admin=$(             grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema|org.opencastproject.organization-mh_default_org.cfg|org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg)' "${DOCKERFILES_ADMIN}/Dockerfile")
-  adminpresentation=$( grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema|org.opencastproject.organization-mh_default_org.cfg|org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg)' "${DOCKERFILES_ADMINPRESENTATION}/Dockerfile")
-  ingest=$(            grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema|org.opencastproject.organization-mh_default_org.cfg|org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg)' "${DOCKERFILES_INGEST}/Dockerfile")
-  presentation=$(      grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema|org.opencastproject.organization-mh_default_org.cfg|org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg)' "${DOCKERFILES_PRESENTATION}/Dockerfile")
-  worker=$(            grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema|org.opencastproject.organization-mh_default_org.cfg|org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg)' "${DOCKERFILES_WORKER}/Dockerfile")
+  allinone=$(          grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ALLINONE}/Dockerfile")
+  admin=$(             grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMIN}/Dockerfile")
+  adminpresentation=$( grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMINPRESENTATION}/Dockerfile")
+  ingest=$(            grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_INGEST}/Dockerfile")
+  presentation=$(      grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_PRESENTATION}/Dockerfile")
+  worker=$(            grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_WORKER}/Dockerfile")
 
   run test "${allinone}" = "${admin}"
   [ "${status}" -eq 0 ]
