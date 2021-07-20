@@ -1,0 +1,96 @@
+# Copyright 2016 The WWU eLectures Team All rights reserved.
+#
+# Licensed under the Educational Community License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
+#
+#     http://opensource.org/licenses/ECL-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Create also the file './nginx/custom.conf' with the line:
+# client_max_body_size 100m;
+
+version: "3"
+
+volumes:
+  data: {}
+
+services:
+  mariadb:
+    image: mariadb:10.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=opencast
+      - MYSQL_USER=opencast
+      - MYSQL_PASSWORD=opencast
+    command: '--wait_timeout=28800'
+    volumes:
+      - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
+      - ./db:/var/lib/mysql
+
+  activemq:
+    image: webcenter/activemq:5.14.3
+    environment:
+      - ACTIVEMQ_MIN_MEMORY=128
+      - ACTIVEMQ_MAX_MEMORY=1024
+      - ACTIVEMQ_ENABLED_SCHEDULER=true
+      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
+      - ACTIVEMQ_OWNER_LOGIN=admin
+      - ACTIVEMQ_OWNER_PASSWORD=password
+    volumes:
+      - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
+
+  opencast:
+    image: quay.io/opencast/allinone:8.3
+    environment:
+      - ORG_OPENCASTPROJECT_SERVER_URL=https://${FQDN}
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=https://${FQDN}/static
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=${ADMIN_PASS}
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      - ACTIVEMQ_BROKER_USERNAME=admin
+      - ACTIVEMQ_BROKER_PASSWORD=password
+      - VIRTUAL_HOST=${FQDN}
+      - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=${FQDN}
+    volumes:
+      - data:/data
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    restart: always
+    environment:
+      - DEFAULT_HOST=${FQDN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx/custom.conf:/etc/nginx/conf.d/custom.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - ./nginx/html:/usr/share/nginx/html
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    environment:
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - ./nginx/html:/usr/share/nginx/html
